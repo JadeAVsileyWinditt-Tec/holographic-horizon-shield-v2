@@ -2,20 +2,47 @@ version: '3.8'
 
 services:
   horizon-shield-proxy:
+    container_name: horizon-shield-proxy
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: holographic_horizon_shield_v2
+    image: jadeavsileywinditt-tec/holographic-horizon-shield-v2:latest
+    restart: always
+    environment:
+      - MODULE_NAME=app
+      - VARIABLE_NAME=app
+      - PORT=8000
+      - WORKERS=4
+      - LOG_LEVEL=info
     ports:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      - ENV=production
-      - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
+      interval: 10s
+      timeout: 3s
       retries: 3
+      start_period: 5s
+
+  # Dedicated automated metrics agent to watch for HORIZON_BREACH spikes
+  telemetry-monitor:
+    container_name: horizon-shield-telemetry
+    image: busybox
+    depends_on:
+      - horizon-shield-proxy
+    command: >
+      sh -c "while true; do 
+               docker compose logs horizon-shield-proxy | grep -E 'HORIZON_BREACH|TARPIT_STALL'; 
+               sleep 5; 
+             done"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
