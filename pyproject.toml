@@ -1,25 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "holographic-horizon-shield"
-version = "2.1.0"
-description = "Living Holographic Geometric Defense for LLMs"
+name = "holographic-horizon-shield-v2"
+version = "2.2.0"
+description = "High-concurrency astrophysical API proxy for LLM prompt anomaly defense."
 readme = "README.md"
-license = {text = "GPL-3.0"}
-requires-python = ">=3.10"
-authors = [{name = "Jade Siley-Winditt"}]
-
-dependencies = [
-    "streamlit",
-    "torch",
-    "transformers",
-    "detoxify",
+authors = [{ name = "Jade Siley-Winditt", email = "developer@phoenixrisingseer.com" }]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Security",
+    "Framework :: FastAPI"
 ]
-
-[project.optional-dependencies]
-dev = ["pytest", "ruff", "black", "pytest-cov"]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.22.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0"
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["holographic_horizon_shield*"]
+include = ["src*"]
 
-[project.scripts]
-hhs-dashboard = "shield_v2_dashboard:main"   # adjust if needed
+[tool.uvicorn]
+host = "0.0.0.0"
+port = 8000
+workers = 4
+loop = "asyncio"
+http = "httptools"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
