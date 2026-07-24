@@ -1,7 +1,11 @@
-fastapi>=0.110.0
-uvicorn>=0.28.0
-pydantic>=2.6.0
-numpy>=1.24.0
-scipy>=1.10.0
-transformers>=4.38.0
-torch>=2.2.0 --extra-index-url https://pytorch.org
+# Holographic Horizon Shield V2 - requirements.txt
+# Python 3.11+ recommended
+# Generated to match the project's actual needs
+
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+numpy==2.2.1
+scipy==1.15.0
+transformers==4.47.1
+torch==2.5.1
