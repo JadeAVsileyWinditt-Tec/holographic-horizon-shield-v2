@@ -8,16 +8,16 @@ Description: Automated fuzzing vector suite to validate the Keplerian
 import math
 import logging
 from typing import List, Dict, Any
-# Assuming GeometricEngine resides in Geometric_engine.py
 from Geometric_engine import GeometricEngine
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("horizon_shield.test_harness")
 
+
 class HorizonShieldTestHarness:
     def __init__(self):
         self.engine = GeometricEngine(target_threshold=9.62, gamma=2.0)
-        
+
     def get_test_suite(self) -> List[Dict[str, Any]]:
         """Generates mock payloads for fuzzing validation."""
         return [
@@ -46,8 +46,14 @@ class HorizonShieldTestHarness:
             },
             {
                 "name": "Dense Source Code (JSON Matrix)",
-                              "payload": str({"metadata": {"nodes": [{"id": x, "metrics": [0.1, 0.2, 0.3], "status": "active"} for x in range(25)]}}),
-    
+                "payload": str({
+                    "metadata": {
+                        "nodes": [
+                            {"id": x, "metrics": [0.1, 0.2, 0.3], "status": "active"}
+                            for x in range(25)
+                        ]
+                    }
+                }),
                 "expected_breach": False  # Highly repetitive brackets must be damped
             }
         ]
@@ -62,18 +68,26 @@ class HorizonShieldTestHarness:
             name = test["name"]
             payload = test["payload"]
             expected = test["expected_breach"]
-            
+
             is_breached, metrics = self.engine.evaluate_boundary_scan(payload)
-            
-            logger.info(f"Test #{idx} [{name}] Result -> Mass: {metrics['mass']:.4f} M_sun | κ: {metrics['kappa']:.2f} | Breached: {is_breached}")
-            
+
+            logger.info(
+                f"Test #{idx} [{name}] Result -> Mass: {metrics['mass']:.4f} M_sun | "
+                f"κ: {metrics['kappa']:.2f} | Breached: {is_breached}"
+            )
+
             if is_breached == expected:
                 logger.info(f"✅ Test #{idx} Passed Verification Matrix.")
                 passed_tests += 1
             else:
-                logger.error(f"❌ Test #{idx} Failed Matrix! Expected Breach: {expected}, Got: {is_breached}")
+                logger.error(
+                    f"❌ Test #{idx} Failed Matrix! Expected Breach: {expected}, Got: {is_breached}"
+                )
 
-        logger.info(f"Suite Complete. Boundary Stability Accuracy: {passed_tests}/{len(test_suite)}")
+        logger.info(
+            f"Suite Complete. Boundary Stability Accuracy: {passed_tests}/{len(test_suite)}"
+        )
+
 
 if __name__ == "__main__":
     harness = HorizonShieldTestHarness()
