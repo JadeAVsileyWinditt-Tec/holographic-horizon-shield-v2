@@ -1,37 +1,32 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-venv/
-.venv/
-env/
-ENV/
+name: CI
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-# Environment
-.env
-.env.local
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-# Data & Logs
-*.log
-logs/
-*.pkl
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-# Build
-build/
-dist/
-*.egg-info/
-.pytest_cache/
-.coverage
-htmlcov/
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-# OS
-.DS_Store
-Thumbs.db
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install transformers
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio
+
+      - name: Run tests
+        run: |
+          pytest -v --tb=short
