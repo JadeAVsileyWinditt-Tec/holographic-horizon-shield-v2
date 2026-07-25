@@ -46,7 +46,8 @@ class HorizonShieldTestHarness:
             },
             {
                 "name": "Dense Source Code (JSON Matrix)",
-                "payload": str({"metadata": {"nodes": [{"id": x, "metrics": [0.1, 0.2, 0.3], "status": "active"} for x in range(25)]}),
+                              "payload": str({"metadata": {"nodes": [{"id": x, "metrics": [0.1, 0.2, 0.3], "status": "active"} for x in range(25)]}}),
+    
                 "expected_breach": False  # Highly repetitive brackets must be damped
             }
         ]
