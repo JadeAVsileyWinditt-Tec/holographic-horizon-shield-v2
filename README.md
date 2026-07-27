@@ -1,3 +1,21 @@
+# Holographic Horizon Shield v2 (HHS-V2) 🛡️
+
+> A stateless, deterministic API proxy defense system for LLMs using Keplerian boundary math and structural complexity profiling.
+
+[![CI Workflow](https://github.com/jadeavsmith-tech/holographic-horizon-shield-v2/actions/workflows/ci.yml/badge.svg)](https://github.com/jadeavsmith-tech/holographic-horizon-shield-v2/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Author: Jade Siley Winditt](https://img.shields.io/badge/Author-Jade%20Siley%20Winditt-informational)](https://experiment.com/users/jsileywinditt)
+
+---
+
+## 🚀 Getting Started
+
+To clone and set up the repository locally:
+
+```bash
+git clone [https://github.com/jadeavsmith-tech/holographic-horizon-shield-v2.git](https://github.com/jadeavsmith-tech/holographic-horizon-shield-v2.git)
+cd holographic-horizon-shield-v2
+
 # Holographic Horizon Shield V2 (HHS-V2) 🛡🌌
 
 **Production Release v2.2.0**  
